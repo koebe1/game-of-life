@@ -1,21 +1,14 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState } from "react";
 import { Grid } from "./Grid";
 
 // game component for the game of life
 export const Game = () => {
-  const [running, setRunning] = useState(false);
-  const [rows] = useState(10);
-  const [columns] = useState(10);
+  const [rows] = useState(25);
+  const [columns] = useState(25);
 
   return (
     <div className="game">
-      <button
-        onClick={() => setRunning(!running)}
-        style={{ width: "80px", height: "30px" }}
-      >
-        {running ? "Stop" : "Start"}
-      </button>
-      <Grid rows={rows} columns={columns} running={running} />
+      <Grid rows={rows} columns={columns} />
     </div>
   );
 };
