@@ -13,3 +13,7 @@ button:hover {
 button:active {
   background-color: #ffffff !important;
 }
+
+button {
+  font-size: min(14px, 2.5vw);
+}

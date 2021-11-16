@@ -22,7 +22,7 @@ const operations = [
 
 export const Grid = ({ rows, columns }) => {
   const [running, setRunning] = useState(false);
-  const [speed, setSpeed] = useState(0.4);
+  const [speed] = useState(0.4);
   // using initalizer function so grid only gets created on the initial render
   const [grid, setGrid] = useState(() => {
     // return a 2d array and will it with zeros
@@ -86,9 +86,9 @@ export const Grid = ({ rows, columns }) => {
       });
     });
 
-    let simulation = setTimeout(run, speed * 1000);
+    setTimeout(run, speed * 1000);
     // run game of life every second
-  }, []);
+  }, [rows, columns, speed]);
 
   return (
     <div
@@ -185,7 +185,7 @@ export const Grid = ({ rows, columns }) => {
         // displaying 2d array as grid to get a board
         style={{
           display: "grid",
-          gridTemplateColumns: `repeat(${columns}, 25px)`
+          gridTemplateColumns: `repeat(${columns}, min(2vw, 25px))`
         }}
       >
         {/* rendering grid */}
@@ -207,8 +207,8 @@ export const Grid = ({ rows, columns }) => {
                 background: grid[x][y] === 1 ? "#fcd252" : null,
                 cursor: "pointer",
                 border: "1px solid lightgrey",
-                width: "25px",
-                height: "25px"
+                width: "min(2vw, 25px)",
+                height: "min(2vw, 25px)"
               }}
             ></div>
           ))
