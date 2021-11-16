@@ -53,9 +53,9 @@ export const Grid = ({ rows, columns }) => {
     // runningRef.current is always going to be up to date even the function only is called once
 
     // END CONDITION NOT WORKING
-    // if (!runningRef.current) {
-    //   return;
-    // }
+    if (!runningRef.current) {
+      return;
+    }
 
     // set grid to value of the procuce function -> the new grid
     setGrid(currentGrid => {
@@ -93,8 +93,12 @@ export const Grid = ({ rows, columns }) => {
     <>
       <button
         onClick={() => {
+          // setRunning is async -> race condition with if (!running) {...}
           setRunning(!running);
+
+          // set ref to true to avoid race condition
           if (!running) {
+            runningRef.current = true;
             run();
           }
         }}
