@@ -22,6 +22,7 @@ const operations = [
 
 export const Grid = ({ rows, columns }) => {
   const [running, setRunning] = useState(false);
+  const [speed, setSpeed] = useState(0.4);
   // using initalizer function so grid only gets created on the initial render
   const [grid, setGrid] = useState(() => {
     // return a 2d array and will it with zeros
@@ -85,27 +86,101 @@ export const Grid = ({ rows, columns }) => {
       });
     });
 
-    setTimeout(run, 500);
+    let simulation = setTimeout(run, speed * 1000);
     // run game of life every second
   }, []);
 
   return (
-    <>
-      <button
-        onClick={() => {
-          // setRunning is async -> race condition with if (!running) {...}
-          setRunning(!running);
-
-          // set ref to true to avoid race condition
-          if (!running) {
-            runningRef.current = true;
-            run();
-          }
+    <div
+      className="grid-container"
+      style={{
+        display: "flex",
+        height: "100vh",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
+    >
+      <h1 style={{ marginBottom: "20px", color: "rgba(0,0,0,0.8)" }}>
+        Conway's Game of Life
+      </h1>
+      <div
+        className="button-container"
+        style={{
+          width: "40%",
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "15px"
         }}
-        style={{ width: "80px", height: "30px" }}
       >
-        {running ? "Stop" : "Start"}
-      </button>
+        <button
+          onClick={() => {
+            // setRunning is async -> race condition with if (!running) {...}
+            setRunning(!running);
+
+            // set ref to true to avoid race condition
+            if (!running) {
+              runningRef.current = true;
+              run();
+            }
+          }}
+          style={{
+            width: "65px",
+            height: "30px",
+            background: "transparent",
+            borderRadius: "10px",
+            border: "2px solid grey",
+            cursor: "pointer"
+          }}
+        >
+          {running ? "Stop" : "Start"}
+        </button>
+        <button
+          onClick={() => {
+            setRunning(false);
+            setGrid(
+              Array(rows)
+                .fill(0)
+                .map(() => Array(columns).fill(0))
+            );
+          }}
+          style={{
+            width: "65px",
+            height: "30px",
+            margin: "0px 10px",
+            background: "transparent",
+            borderRadius: "10px",
+            border: "2px solid grey",
+            cursor: "pointer"
+          }}
+        >
+          Reset
+        </button>
+        <button
+          onClick={() => {
+            setRunning(false);
+            const row = [];
+            // generate grid with randomized zeros or ones
+            for (let x = 0; x < rows; x++) {
+              row.push(
+                Array.from(Array(columns), () => (Math.random() > 0.8 ? 1 : 0))
+              );
+            }
+
+            setGrid(row);
+          }}
+          style={{
+            width: "65px",
+            height: "30px",
+            background: "transparent",
+            borderRadius: "10px",
+            border: "2px solid grey",
+            cursor: "pointer"
+          }}
+        >
+          Random
+        </button>
+      </div>
       <div
         // displaying 2d array as grid to get a board
         style={{
@@ -131,7 +206,7 @@ export const Grid = ({ rows, columns }) => {
                 // conditional render background color depending on the state of the element
                 background: grid[x][y] === 1 ? "#fcd252" : null,
                 cursor: "pointer",
-                border: "1px solid black",
+                border: "1px solid lightgrey",
                 width: "25px",
                 height: "25px"
               }}
@@ -139,6 +214,6 @@ export const Grid = ({ rows, columns }) => {
           ))
         )}
       </div>
-    </>
+    </div>
   );
 };

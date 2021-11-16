@@ -1,5 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Shippori+Antique+B1&display=swap");
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: "Shippori Antique B1", sans-serif;
+}
+
+button:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+.active {
+  background-color: #ffffff;
 }
