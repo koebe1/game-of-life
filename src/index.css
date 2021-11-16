@@ -10,6 +10,6 @@
 button:hover {
   background-color: rgba(0, 0, 0, 0.05) !important;
 }
-.active {
-  background-color: #ffffff;
+button:active {
+  background-color: #ffffff !important;
 }
